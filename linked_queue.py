@@ -61,18 +61,15 @@ def hot_potato(names, num):
     eliminated = []
 
     while len(q) > 1:
-        # Rotate (num - 1) times so the person holding the potato is at the front
         for _ in range(num - 1):
             q.enqueue(q.dequeue())
         
-        # Eliminate the person at the front
         eliminated.append(q.dequeue())
 
     winner = q.dequeue()
     return (eliminated, winner)
 
 
-# Keep board_passengers as an alias or alternate utility if required elsewhere
 def board_passengers(names, seats_available):
     if not isinstance(seats_available, int) or isinstance(seats_available, bool):
         raise TypeError("seats_available must be an integer.")
