@@ -9,6 +9,7 @@ from linked_stack import Stack
 
 
 def main():
+    """Runs the Metro City Navigator terminal program."""
     print("=======================================")
     print("         METRO CITY NAV                 ")
     print("=======================================\n")

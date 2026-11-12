@@ -2,50 +2,88 @@ from linked_list import LinkedList
 
 
 class Queue:
-    """A FIFO queue built on a custom LinkedList."""
+    """A FIFO queue implementation built on top of a LinkedList.
+
+    Attributes:
+        _list: The internal LinkedList storing queue elements.
+    """
 
     def __init__(self):
-        # Must store storage ONLY in self._list
+        """Initializes an empty queue."""
         self._list = LinkedList()
 
     def enqueue(self, item):
-        """Add item to the back of the queue (tail of LinkedList) in O(1) time."""
+        """Adds an item to the back of the queue.
+
+        Args:
+            item: The element to add.
+        """
         self._list.append(item)
 
     def dequeue(self):
-        """Remove and return front item (head of LinkedList). Raise IndexError if empty."""
+        """Removes and returns the front item of the queue.
+
+        Returns:
+            The front element.
+
+        Raises:
+            IndexError: If the queue is empty.
+        """
         if self.is_empty():
             raise IndexError("dequeue from empty queue")
         return self._list.remove_at(0)
 
     def peek(self):
-        """Return front item without removing it. Raise IndexError if empty."""
+        """Looks at the front item without removing it.
+
+        Returns:
+            The front element.
+
+        Raises:
+            IndexError: If the queue is empty.
+        """
         if self.is_empty():
             raise IndexError("peek on empty queue")
         return self._list.get(0)
 
     def is_empty(self):
-        """Return True if queue contains no elements."""
+        """Checks if the queue has no elements.
+
+        Returns:
+            True if empty, False otherwise.
+        """
         return len(self._list) == 0
 
     def clear(self):
-        """Remove all items from the queue."""
+        """Removes all items from the queue."""
         self._list.clear()
 
     def to_list(self):
-        """Return a new Python list of items, front to back."""
+        """Converts queue elements into a standard list from front to back.
+
+        Returns:
+            A list of elements.
+        """
         return self._list.to_list()
 
     def __len__(self):
-        """Return the number of items stored in the queue."""
+        """Returns the total number of items stored in the queue."""
         return len(self._list)
 
 
 def hot_potato(names, num):
-    """
-    Simulates Hot Potato game returning (eliminated_list, winner).
-    - Rotates the potato 'num - 1' times.
-    - Dequeues the eliminated person at the front.
+    """Simulates the Hot Potato elimination game using a Queue.
+
+    Args:
+        names: List of player names.
+        num: Number of passes per elimination round.
+
+    Returns:
+        A tuple of (eliminated_players_list, winner_name).
+
+    Raises:
+        TypeError: If num is not an integer.
+        ValueError: If num is less than 1 or names list is empty.
     """
     if not isinstance(num, int) or isinstance(num, bool):
         raise TypeError("num must be an integer.")
@@ -63,7 +101,7 @@ def hot_potato(names, num):
     while len(q) > 1:
         for _ in range(num - 1):
             q.enqueue(q.dequeue())
-        
+
         eliminated.append(q.dequeue())
 
     winner = q.dequeue()
@@ -71,6 +109,19 @@ def hot_potato(names, num):
 
 
 def board_passengers(names, seats_available):
+    """Boards waiting passengers onto a transport line up to available seat capacity.
+
+    Args:
+        names: List of passenger names in queue order.
+        seats_available: Total number of open seats.
+
+    Returns:
+        A tuple of (boarded_passengers_list, remaining_queue_list).
+
+    Raises:
+        TypeError: If seats_available is not an integer.
+        ValueError: If seats_available is negative.
+    """
     if not isinstance(seats_available, int) or isinstance(seats_available, bool):
         raise TypeError("seats_available must be an integer.")
     if seats_available < 0:
